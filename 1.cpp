@@ -1,9 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cmath>
+#include <ctime>
 using namespace std;
 
 void insertionsort(int arr[], int size) {
+
+  clock_t time_req;
+  time_req = clock();
   for (int i = 1; i < size; i++) {
     int element = arr[i];
     int j = i - 1;
@@ -13,6 +18,8 @@ void insertionsort(int arr[], int size) {
     }
     arr[j + 1] = element;
   }
+  time_req =clock()-time_req;
+  cout<< "tiempo: "<<(float)time_req/CLOCKS_PER_SEC << "segundos"<< endl;
 }
 
 void merge(int arr[], int i, int j, int k) {
@@ -78,17 +85,26 @@ int main() {
   }
   //cambiar el largo del archivo que se va a leer
   const int maxlineas = 100;
-  string lineas[maxlineas];
+  int lineas[maxlineas];
   int countline = 0;
 
   string linea;
-  while(getline(file, linea) && countline<<maxlineas){
-    lineas[countline] = linea;
+  while(getline(file, linea) && countline < maxlineas){
+    int linea_int =stoi(linea);
+    lineas[countline] = linea_int;
+
     countline++;
   }
   file.close();
 
-
+  insertionsort(lineas,maxlineas);
+  
+  //cout << "Sorted array: ";
+  //for (int i = 0; i < 100; i++) {
+  //  cout << lineas[i] << endl;
+  //}
+  //cout << endl;
+  //mergesort(lineas);
 
   return 0;
 }
