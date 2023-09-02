@@ -99,6 +99,7 @@ int main() {
 
   insertionsort(lineas,maxlineas);
   
+  //esto imprime el arreglo
   //cout << "Sorted array: ";
   //for (int i = 0; i < 100; i++) {
   //  cout << lineas[i] << endl;
