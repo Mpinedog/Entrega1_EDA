@@ -6,9 +6,6 @@
 using namespace std;
 
 void insertionsort(int arr[], int size) {
-
-  clock_t time_req;
-  time_req = clock();
   for (int i = 1; i < size; i++) {
     int element = arr[i];
     int j = i - 1;
@@ -18,8 +15,6 @@ void insertionsort(int arr[], int size) {
     }
     arr[j + 1] = element;
   }
-  time_req =clock()-time_req;
-  cout<< "tiempo: "<<(float)time_req/CLOCKS_PER_SEC << "segundos"<< endl;
 }
 
 void merge(int arr[], int i, int j, int k) {
@@ -68,15 +63,48 @@ void mergesort(int arr[], int i, int j) {
         mergesort(arr, k + 1, j);
         merge(arr, i, j, k);
     }
+  
 }
 
-void split_qs(int arr[],int i,int j){
-  int p =0;
+//algoritmo split utilizado por quicksort para dividir una lista.
+int split_qs(int arr[],int i,int j){
+    int p = j; //last element is pivot postion
+    //while start limit is less than end limit
+    while (i < j) {
+        //while elements on correct side -> next element
+        while ((i < p) && (arr[i] <= arr[p])){
+            i++;
+        }
+        while ((j > p) && (arr[j] >= arr[p])){
+            j--;
+        }
+        //if elements not on correct side
+        arr[i] = arr[j];
+        //if we reach the pivot position
+        if (i == p) {
+            p = j;
+        } else {
+            if (j == p){
+                p = i;
+            }
+        }
+    }
+    //returns pivots final position (post-order)
+    return p;
+}
+
+void quickSort(int arr[],int i,int j){
+    //repite splits con pivote de manera recursiva
+    if (i < j) {
+        int k = split_qs(arr, i, j);
+        quickSort(arr, i, k - 1);
+        quickSort(arr, k + 1, j);
+    }
 }
 
 int main() {
   //filename es el nombre del archivo 
-  string filename ="ruts_100.txt";
+  string filename ="ruts_500000.txt";
   ifstream file(filename);
 
   if (!file.is_open()){
@@ -84,7 +112,7 @@ int main() {
     return 1;
   }
   //cambiar el largo del archivo que se va a leer
-  const int maxlineas = 100;
+  const int maxlineas = 500000;
   int lineas[maxlineas];
   int countline = 0;
 
@@ -97,16 +125,17 @@ int main() {
   }
   file.close();
 
-  insertionsort(lineas,maxlineas);
-  mergesort(lineas,1,maxlineas);
-  
-  //esto imprime el arreglo
-  //cout << "Sorted array: ";
-  //for (int i = 0; i < 100; i++) {
-  //  cout << lineas[i] << endl;
-  //}
-  //cout << endl;
-  //mergesort(lineas);
+  //insertionsort(lineas,maxlineas);
+
+  clock_t time_req;
+  time_req = clock();
+
+  //insertionsort(lineas,maxlineas);
+  //mergesort(lineas,1,maxlineas);
+  quickSort(lineas,1,maxlineas);
+  time_req =clock()-time_req;
+  cout<< "tiempo: "<<(float)time_req/CLOCKS_PER_SEC << "segundos"<< endl;
+
 
   return 0;
 }
