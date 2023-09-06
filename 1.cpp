@@ -98,6 +98,7 @@ int main() {
   file.close();
 
   insertionsort(lineas,maxlineas);
+  mergesort(lineas,1,maxlineas);
   
   //esto imprime el arreglo
   //cout << "Sorted array: ";
