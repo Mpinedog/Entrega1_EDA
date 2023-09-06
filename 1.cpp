@@ -104,7 +104,7 @@ void quickSort(int arr[],int i,int j){
 
 int main() {
   //filename es el nombre del archivo 
-  string filename ="ruts_500000.txt";
+  string filename ="ruts_100.txt";
   ifstream file(filename);
 
   if (!file.is_open()){
@@ -112,7 +112,7 @@ int main() {
     return 1;
   }
   //cambiar el largo del archivo que se va a leer
-  const int maxlineas = 500000;
+  const int maxlineas = 100;
   int lineas[maxlineas];
   int countline = 0;
 
